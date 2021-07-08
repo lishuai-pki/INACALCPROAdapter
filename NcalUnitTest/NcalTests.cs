@@ -243,5 +243,40 @@ namespace NcalUnitTest
             m_pInaCalc.Recalc();
             Assert.IsTrue(spAtomEq.Value.ToString().IndexOf("2.197") >= 0);
         }
+
+        [Test]
+        public void ParamterTypeTest()
+        {
+            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+
+            m_pInaCalc.CheckCustomFunction += delegate (string strFunc, IInaCalcFuncArgTypes argTypes, out EInaValueType valType)
+            {
+                int count = argTypes.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    var arg = argTypes[i];
+                }
+                valType = EInaValueType.inaValNumber;
+            };
+
+            var pInaCalcFuncs = m_pInaCalc.Funcs;
+            var nFuncs = pInaCalcFuncs.Count;
+            pInaCalcFuncs.Add("ymax", EInaFuncCategory.inaFuncCustom, "", "");
+            pInaCalcFuncs.Add("start", EInaFuncCategory.inaFuncCustom, "", "");
+            pInaCalcFuncs.Add("end", EInaFuncCategory.inaFuncCustom, "", "");
+
+            var spAtoms = m_pInaCalc.Atoms;
+
+            spAtoms["all"].Value = "800";
+            var spAtomEq = spAtoms["getymax"];
+            spAtomEq.Formula = "ymax(([all]),start(([all])),end(([all])))";
+
+            Assert.IsTrue(m_pInaCalc.LastError == EInaErrorValue.inaErrNone);
+
+            spAtomEq.Formula = "ymax(([all]),start(([all])),end(([all]))))";
+
+            Assert.IsTrue(m_pInaCalc.LastError != EInaErrorValue.inaErrNone);
+
+        }
     }
 }

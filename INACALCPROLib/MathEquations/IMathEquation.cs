@@ -16,13 +16,14 @@ namespace INACALCPROLib.MathEquations
         /// <summary>
         /// result value type
         /// </summary>
+        /// <param name="argTypes">paramter types</param>
         /// <returns></returns>
-        EInaValueType GetValueType();
+        EInaValueType GetValueType(IInaCalcFuncArgTypes argTypes);
 
         /// <summary>
         /// result value
         /// </summary>
-        /// <param name="argVals"></param>
+        /// <param name="argVals">parameter values</param>
         /// <returns></returns>
         object GetResult(IInaCalcFuncArgVals argVals);
     }

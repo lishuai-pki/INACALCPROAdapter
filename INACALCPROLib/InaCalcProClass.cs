@@ -105,8 +105,7 @@ namespace INACALCPROLib
             Expression expression = new Expression(strFormula);
             if (expression.HasErrors())
             {
-                this._lastError = EInaErrorValue.inaErrSyntax;
-                this._lastErrorDescr = expression.Error;
+                SetErrorInfo(EInaErrorValue.inaErrSyntax, expression.Error);
                 return null;
             }
 
@@ -136,7 +135,8 @@ namespace INACALCPROLib
 
             foreach (var para in args.Parameters)
             {
-                vals.Add(para.Evaluate());
+                var paraValue = para.Evaluate();
+                vals.Add(paraValue);
             }
             IInaCalcFuncArgVals argVals = new InaCalcFuncArgVals(vals);
 
@@ -150,7 +150,6 @@ namespace INACALCPROLib
 
             if (Funcs[name] != null)
             {
-                //在这里验证函数并设置valueType ?????
                 EvalCustomFunction(name, argVals, out object vntValue);
                 if (vntValue != null)
                 {
@@ -190,7 +189,7 @@ namespace INACALCPROLib
             }
         }
 
-        private void ClearError()
+        public void ClearError()
         {
             _lastError = EInaErrorValue.inaErrNone;
             _lastErrorDescr = string.Empty;

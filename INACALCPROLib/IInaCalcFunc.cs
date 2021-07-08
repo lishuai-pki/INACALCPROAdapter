@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
@@ -13,6 +14,10 @@ namespace INACALCPROLib
         string Descr { get; set; }
         [DispId(4)]
         EInaFuncCategory Category { get; set; }
+        [DispId(5)]
+        List<EInaValueType> ParamValueTypes { get; set; }
+        [DispId(6)]
+        EInaValueType OutputValueType { get; set; }
     }
 
     public class InaCalcFunc : IInaCalcFunc
@@ -21,5 +26,7 @@ namespace INACALCPROLib
         public string Format { get; set; }
         public string Descr { get; set; }
         public EInaFuncCategory Category { get; set; }
+        public List<EInaValueType> ParamValueTypes { get; set; } = new List<EInaValueType>();
+        public EInaValueType OutputValueType { get; set; }
     }
 }

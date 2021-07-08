@@ -32,8 +32,12 @@ namespace INACALCPROLib.MathEquations
             return Math.Log(paras[0], paras[1]);
         }
 
-        public EInaValueType GetValueType()
+        public EInaValueType GetValueType(IInaCalcFuncArgTypes argTypes)
         {
+            if (argTypes == null || argTypes.Count != 2)
+            {
+                throw new ArgumentException($"{nameof(Name)} must has two parameters");
+            }
             return EInaValueType.inaValNumber;
         }
     }
