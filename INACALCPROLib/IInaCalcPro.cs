@@ -2,6 +2,8 @@
 
 namespace INACALCPROLib
 {
+    [Guid("4FB88296-CFBC-40F4-8496-5D22CD2FE4DC")]
+    [ComVisible(true)]
     public interface IInaCalcPro
     {
         [DispId(6)]

@@ -1,5 +1,9 @@
-﻿namespace INACALCPROLib
+﻿using System.Runtime.InteropServices;
+
+namespace INACALCPROLib
 {
+    [Guid("A32D4401-CF3B-420A-A95C-DCDC1E182A05")]
+    [ComVisible(true)]
     public enum EInaFuncCategory
     {
         inaFuncArithmetical = 1,

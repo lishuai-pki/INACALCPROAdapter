@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib.MathEquations
 {
+    [Guid("B8425AB1-8DD0-4A77-8FD7-C11BEEC8A43D")]
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
     public class SqrEquation : IMathEquation
     {
         public string Name { get; set; } = "Sqr";

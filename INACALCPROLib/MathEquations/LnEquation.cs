@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib.MathEquations
 {
+    [Guid("FF4F337F-A269-40A6-9814-CC1E7943EB69")]
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
     public class LnEquation : IMathEquation
     {
         public string Name { get; set; } = "Ln";

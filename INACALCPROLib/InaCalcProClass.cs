@@ -3,9 +3,13 @@ using NCalc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
+    [Guid("ACED0424-2999-4535-9296-EA0C56801E54")]
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
     public class InaCalcProClass : IInaCalcPro, _IInaCalcProEvents_Event
     {
         public event _IInaCalcProEvents_CheckCustomFunctionEventHandler CheckCustomFunction;

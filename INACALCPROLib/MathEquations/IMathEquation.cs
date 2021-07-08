@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib.MathEquations
 {
+    [Guid("4F69FD3B-27BF-4924-8763-927EDE24FE7D")]
+    [ComVisible(true)]
     public interface IMathEquation
     {
         /// <summary>

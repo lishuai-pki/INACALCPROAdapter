@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace INACALCPROLib.MathEquations
 {
+    [Guid("57E4FAF1-D337-4DE0-81C5-4522D2B698FC")]
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
     public class ExpEquation : IMathEquation
     {
         public string Name { get; set; } = "Exp";

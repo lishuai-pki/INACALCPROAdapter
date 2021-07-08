@@ -1,5 +1,9 @@
-﻿namespace INACALCPROLib
+﻿using System.Runtime.InteropServices;
+
+namespace INACALCPROLib
 {
+    [Guid("9A0CE312-A250-4BF0-B20C-AEDAB5F97A3C")]
+    [ComVisible(true)]
     public enum EInaErrorValue
     {
         inaErrNone = 0,
