@@ -40,11 +40,7 @@ namespace INACALCPROLib
         {
             get
             {
-                if (lIndex < 0 || lIndex >= _args.Count)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                return _args[lIndex];
+                return _args[lIndex - 1];
             }
         }
 

@@ -261,11 +261,14 @@ namespace NcalUnitTest
 
             var pInaCalcFuncs = m_pInaCalc.Funcs;
             var nFuncs = pInaCalcFuncs.Count;
+            pInaCalcFuncs.Add("getarea", EInaFuncCategory.inaFuncCustom, "", "");
             pInaCalcFuncs.Add("ymax", EInaFuncCategory.inaFuncCustom, "", "");
             pInaCalcFuncs.Add("start", EInaFuncCategory.inaFuncCustom, "", "");
             pInaCalcFuncs.Add("end", EInaFuncCategory.inaFuncCustom, "", "");
 
             var spAtoms = m_pInaCalc.Atoms;
+
+            spAtoms["area"].Formula = "getarea(3,5)";
 
             spAtoms["all"].Value = "800";
             var spAtomEq = spAtoms["getymax"];

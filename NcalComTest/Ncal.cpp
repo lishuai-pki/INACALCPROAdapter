@@ -52,6 +52,11 @@ public:
 
 int main()
 {
+	char name[50];
+	cout << "put enter to start";
+	cin >> name;
+	cout << name << endl;
+
 	CoInitialize(NULL);
 	_Module.Init(NULL, (HINSTANCE)GetModuleHandle(NULL));
 
@@ -102,7 +107,7 @@ int main()
 
 
 
-	BSTR m_equationFormula = SysAllocString(_T("getArea(3,5)"));
+	BSTR m_equationFormula = SysAllocString(_T("getarea(3,5)"));
 	CString cstrEquation = m_equationFormula;
 	cstrEquation.MakeLower();
 	_bstr_t sbEquation(cstrEquation);
@@ -111,7 +116,7 @@ int main()
 
 	_variant_t  svRes;
 	spAtomEq->get_Value(&svRes);
-	cout << "the result is " << svRes.intVal << endl;
+	cout << "the result is " << svRes.dblVal << endl;
 
 
 	pReveiver->DispEventUnadvise(m_pInaCalc);
@@ -185,6 +190,10 @@ STDMETHODIMP_(HRESULT __stdcall) EventReceiver::CheckCustomFunction(BSTR strFunc
 
 STDMETHODIMP_(HRESULT __stdcall) EventReceiver::EvalCustomFunction(BSTR strFunc, IDispatch* argVals, VARIANT* vntValue)
 {
+	if (vntValue == NULL)
+		return E_POINTER;
+	VariantInit(vntValue);
+
 	_bstr_t sbFunc(strFunc);
 
 	BSTR  bstrName = SysAllocString(_T("getarea"));
@@ -226,6 +235,7 @@ STDMETHODIMP_(HRESULT __stdcall) EventReceiver::EvalCustomFunction(BSTR strFunc,
 		cout << "evalCustomFunc is " << sbFunc << endl;
 
 		double area = 5 * 6;
+		vntValue->vt = VT_R8;
 		vntValue->dblVal = area;
 		return S_OK;
 	}
