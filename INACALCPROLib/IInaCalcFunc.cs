@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
-
+    [ComVisible(true)]
+    [Guid("13E06C43-CEFF-4728-B626-DA2EEEA1E651")]
     public interface IInaCalcFunc
     {
         [DispId(0)]
@@ -20,6 +21,9 @@ namespace INACALCPROLib
         EInaValueType OutputValueType { get; set; }
     }
 
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
+    [Guid("E7DAC245-B6B7-4F11-A864-2353A2A625D3")]
     public class InaCalcFunc : IInaCalcFunc
     {
         public string Name { get; set; }

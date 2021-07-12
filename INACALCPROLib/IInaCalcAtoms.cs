@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
+    [ComVisible(true)]
+    [Guid("4DC78614-C20C-47A0-B0F3-D966E72F0852")]
     public interface IInaCalcAtoms
     {
         [DispId(-4)]
@@ -16,6 +18,9 @@ namespace INACALCPROLib
         IInaCalcAtom this[object vntAtom] { get; }
     }
 
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
+    [Guid("8599E016-DC63-4C3B-B7C3-7475391D464E")]
     public class InaCalcAtoms : IInaCalcAtoms
     {
         private List<IInaCalcAtom> _atomList = new List<IInaCalcAtom>();

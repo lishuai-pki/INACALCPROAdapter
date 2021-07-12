@@ -5,7 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
-
+    [ComVisible(true)]
+    [Guid("A6199271-E8EF-4395-9606-69F7E45E679B")]
     public interface IInaCalcFuncs : IEnumerable
     {
         [DispId(2)]
@@ -24,6 +25,9 @@ namespace INACALCPROLib
         IInaCalcFunc this[object vntFunc] { get; }
     }
 
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
+    [Guid("68814BA5-C8F2-498B-8CC8-D3E930447B45")]
     public class InaCalcFuncs : IInaCalcFuncs
     {
         private List<IInaCalcFunc> _funcs;

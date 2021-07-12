@@ -10,10 +10,19 @@ namespace INACALCPROLib
     [Guid("ACED0424-2999-4535-9296-EA0C56801E54")]
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
-    public class InaCalcProClass : IInaCalcPro, _IInaCalcProEvents_Event
+    [ComSourceInterfaces(typeof(_IInaCalcProEvents_Event))]
+    public class InaCalcProClass : IInaCalcPro
     {
         public event _IInaCalcProEvents_CheckCustomFunctionEventHandler CheckCustomFunction;
         public event _IInaCalcProEvents_EvalCustomFunctionEventHandler EvalCustomFunction;
+        [Obsolete("Not Implement.")]
+        public event _IInaCalcProEvents_CheckAtomEventHandler CheckAtom;
+        [Obsolete("Not Implement.")]
+        public event _IInaCalcProEvents_GetAtomValueEventHandler GetAtomValue;
+        [Obsolete("Not Implement.")]
+        public event _IInaCalcProEvents_ValueChangedEventHandler ValueChanged;
+        [Obsolete("Not Implement.")]
+        public event _IInaCalcProEvents_AtomChangedEventHandler AtomChanged;
 
         #region useless
         [Obsolete("Not Implement.")]
@@ -54,15 +63,6 @@ namespace INACALCPROLib
         {
             throw new NotImplementedException();
         }
-
-        [Obsolete("Not Implement.")]
-        public event _IInaCalcProEvents_CheckAtomEventHandler CheckAtom;
-        [Obsolete("Not Implement.")]
-        public event _IInaCalcProEvents_GetAtomValueEventHandler GetAtomValue;
-        [Obsolete("Not Implement.")]
-        public event _IInaCalcProEvents_ValueChangedEventHandler ValueChanged;
-        [Obsolete("Not Implement.")]
-        public event _IInaCalcProEvents_AtomChangedEventHandler AtomChanged;
         #endregion
 
 

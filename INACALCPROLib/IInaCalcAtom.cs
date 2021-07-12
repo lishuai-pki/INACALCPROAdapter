@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace INACALCPROLib
 {
-
+    [Guid("E94F4143-E6CE-477D-B154-705F7AC59972")]
+    [ComVisible(true)]
     public interface IInaCalcAtom
     {
         [DispId(6)]
@@ -23,6 +24,9 @@ namespace INACALCPROLib
         IInaCalcStringEnum FormulaDeps { get; }
     }
 
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]
+    [Guid("31BCC53B-A32F-49CB-B056-B35AB5FBC3A8")]
     public class InaCalcAtom : IInaCalcAtom
     {
         public InaCalcAtom(string name, InaCalcProClass inaCalcProClass)
