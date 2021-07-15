@@ -10,8 +10,8 @@ namespace INACALCPROLib
     [Guid("ACED0424-2999-4535-9296-EA0C56801E54")]
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
-    [ComSourceInterfaces(typeof(_IInaCalcProEvents_Event))]
-    public class InaCalcProClass : IInaCalcPro
+    [ComSourceInterfaces(typeof(_IInaCalcProEvents))]
+    public class InaCalcPro : IInaCalcPro
     {
         public event _IInaCalcProEvents_CheckCustomFunctionEventHandler CheckCustomFunction;
         public event _IInaCalcProEvents_EvalCustomFunctionEventHandler EvalCustomFunction;
@@ -89,7 +89,7 @@ namespace INACALCPROLib
 
         public IInaCalcFuncs Funcs { get; }
 
-        public InaCalcProClass()
+        public InaCalcPro()
         {
             Atoms = new InaCalcAtoms(this);
             Funcs = new InaCalcFuncs();
@@ -171,9 +171,6 @@ namespace INACALCPROLib
                 var atom = Atoms[i];
                 if (!string.IsNullOrWhiteSpace(atom.Formula))
                 {
-                    //check custom functions
-                    atom.Formula = atom.Formula;
-
                     //eval formual
                     var result = Eval(atom.Formula);
                     atom.Value = result;

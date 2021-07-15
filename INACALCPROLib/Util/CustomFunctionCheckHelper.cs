@@ -8,7 +8,7 @@ namespace INACALCPROLib
 {
     public class CustomFunctionCheckHelper
     {
-        public static void Check(InaCalcProClass _inaCalcProClass, string formula, ref EInaValueType _returnType)
+        public static void Check(InaCalcPro _inaCalcProClass, string formula, ref EInaValueType _returnType)
         {
             try
             {

@@ -17,16 +17,8 @@ namespace INACALCPROLib
 
     [Guid("0DF0A4C4-D708-4504-9432-27D2AEED9FD4")]
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
-    public interface _IInaCalcProEvents_Event
+    public interface _IInaCalcProEvents
     {
-        //event _IInaCalcProEvents_CheckAtomEventHandler CheckAtom;
-        //event _IInaCalcProEvents_GetAtomValueEventHandler GetAtomValue;
-        //event _IInaCalcProEvents_ValueChangedEventHandler ValueChanged;
-        //event _IInaCalcProEvents_CheckCustomFunctionEventHandler CheckCustomFunction;
-        //event _IInaCalcProEvents_EvalCustomFunctionEventHandler EvalCustomFunction;
-        //event _IInaCalcProEvents_AtomChangedEventHandler AtomChanged;
-
-
         [DispId(1)]
         void CheckAtom(string strAtom, out EInaValueType valType);
         [DispId(2)]

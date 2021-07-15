@@ -15,6 +15,11 @@ namespace INACALCPROLib
         [DispId(1)]
         int Count { get; }
 
+        /// <summary>
+        /// index starts at 1
+        /// </summary>
+        /// <param name="lIndex"></param>
+        /// <returns></returns>
         [DispId(0)]
         object this[int lIndex] { get; }
     }

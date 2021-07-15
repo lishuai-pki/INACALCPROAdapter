@@ -21,6 +21,11 @@ namespace INACALCPROLib
         [DispId(1)]
         int Count { get; }
 
+        /// <summary>
+        /// if vntFunc is a number, index starts at 1
+        /// </summary>
+        /// <param name="vntFunc"></param>
+        /// <returns></returns>
         [DispId(0)]
         IInaCalcFunc this[object vntFunc] { get; }
     }
@@ -45,7 +50,14 @@ namespace INACALCPROLib
                 {
                     throw new ArgumentNullException();
                 }
-                var func = _funcs.Find(f => string.Compare(f.Name, vntFunc.ToString(), true) == 0);
+
+                IInaCalcFunc func = null;
+                if (int.TryParse(vntFunc.ToString(), out int index))
+                {
+                    func = _funcs[index - 1];
+                    return func;
+                }
+                func = _funcs.Find(f => string.Compare(f.Name, vntFunc.ToString(), true) == 0);
                 return func;
             }
         }
@@ -88,7 +100,7 @@ namespace INACALCPROLib
             }
             if (int.TryParse(vntIndex.ToString(), out int index))
             {
-                _funcs.RemoveAt(index);
+                _funcs.RemoveAt(index - 1);
                 return;
             }
             var func = _funcs.Find(f => string.Compare(f.Name, vntIndex.ToString(), true) == 0);

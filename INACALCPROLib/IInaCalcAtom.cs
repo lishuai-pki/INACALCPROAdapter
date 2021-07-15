@@ -11,7 +11,7 @@ namespace INACALCPROLib
         void Clear();
 
         [DispId(0)]
-        object Value { get; set; }
+        dynamic Value { get; set; }
         [DispId(1)]
         string Name { get; }
         [DispId(2)]
@@ -29,14 +29,14 @@ namespace INACALCPROLib
     [Guid("31BCC53B-A32F-49CB-B056-B35AB5FBC3A8")]
     public class InaCalcAtom : IInaCalcAtom
     {
-        public InaCalcAtom(string name, InaCalcProClass inaCalcProClass)
+        public InaCalcAtom(string name, InaCalcPro inaCalcProClass)
         {
             Name = name;
             _inaCalcProClass = inaCalcProClass;
         }
 
-        private InaCalcProClass _inaCalcProClass;
-        public object Value { get; set; }
+        private InaCalcPro _inaCalcProClass;
+        public dynamic Value { get; set; }
 
         public string Name { get; }
 
@@ -51,8 +51,12 @@ namespace INACALCPROLib
 
             set
             {
-                //check if expression illegal before set value                
-                CustomFunctionCheckHelper.Check(_inaCalcProClass, value, ref _returnType);
+                if (_formmula != value)
+                {
+                    //check if expression illegal before set value                
+                    CustomFunctionCheckHelper.Check(_inaCalcProClass, value, ref _returnType);
+                }
+
                 _formmula = value;
             }
         }

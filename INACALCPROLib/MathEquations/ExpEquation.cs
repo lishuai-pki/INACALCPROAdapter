@@ -20,7 +20,7 @@ namespace INACALCPROLib.MathEquations
             double para;
             try
             {
-                para = Convert.ToDouble(argVals[0]);
+                para = Convert.ToDouble(argVals[1]);
             }
             catch (Exception ex)
             {

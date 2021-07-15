@@ -24,9 +24,9 @@ namespace INACALCPROLib
     public class InaCalcAtoms : IInaCalcAtoms
     {
         private List<IInaCalcAtom> _atomList = new List<IInaCalcAtom>();
-        private InaCalcProClass _inaCalcProClass;
+        private InaCalcPro _inaCalcProClass;
 
-        public InaCalcAtoms(InaCalcProClass inaCalcProClass)
+        public InaCalcAtoms(InaCalcPro inaCalcProClass)
         {
             _inaCalcProClass = inaCalcProClass;
         }

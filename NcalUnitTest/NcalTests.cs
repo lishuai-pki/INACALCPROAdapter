@@ -3,8 +3,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NcalUnitTest
 {
@@ -18,14 +16,14 @@ namespace NcalUnitTest
         [Test]
         public void TestCreateAndInit()
         {
-            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+            InaCalcPro m_pInaCalc = new InaCalcPro();
 
             m_pInaCalc.CheckCustomFunction += delegate (string strFunc, IInaCalcFuncArgTypes argTypes, out EInaValueType valType)
             {
                 int count = argTypes.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    var arg = argTypes[i];
+                    var arg = argTypes[i + 1];
                 }
                 valType = EInaValueType.inaValNumber;
             };
@@ -39,7 +37,7 @@ namespace NcalUnitTest
                     int count = argVals.Count;
                     for (int i = 0; i < count; i++)
                     {
-                        var arg = argVals[i];
+                        var arg = argVals[i + 1];
                         values.Add(Convert.ToInt32(arg));
                     }
                     vntValue = values.Sum();
@@ -50,7 +48,7 @@ namespace NcalUnitTest
                     int count = argVals.Count;
                     for (int i = 0; i < count; i++)
                     {
-                        var arg = argVals[i];
+                        var arg = argVals[i + 1];
                         values.Add(Convert.ToInt32(arg));
                     }
 
@@ -133,7 +131,7 @@ namespace NcalUnitTest
         [Test]
         public void ErrorTest()
         {
-            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+            InaCalcPro m_pInaCalc = new InaCalcPro();
             m_pInaCalc.Eval("(1+1(");
             Assert.IsTrue(m_pInaCalc.LastError == EInaErrorValue.inaErrSyntax);
         }
@@ -141,7 +139,7 @@ namespace NcalUnitTest
         [Test]
         public void ComplexFunctions()
         {
-            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+            InaCalcPro m_pInaCalc = new InaCalcPro();
 
             var pInaCalcFuncs = m_pInaCalc.Funcs;
             pInaCalcFuncs.Add("area", EInaFuncCategory.inaFuncCustom, "get area", "get area");
@@ -153,7 +151,7 @@ namespace NcalUnitTest
                 int count = argTypes.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    var arg = argTypes[i];
+                    var arg = argTypes[i + 1];
                 }
                 valType = EInaValueType.inaValNumber;
             };
@@ -166,7 +164,7 @@ namespace NcalUnitTest
                 int count = argVals.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    var arg = argVals[i];
+                    var arg = argVals[i + 1];
                     values.Add(Convert.ToInt32(arg));
                 }
 
@@ -219,7 +217,7 @@ namespace NcalUnitTest
         [Test]
         public void MathFunctionTest()
         {
-            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+            InaCalcPro m_pInaCalc = new InaCalcPro();
             var spAtoms = m_pInaCalc.Atoms;
             var spAtomEq = spAtoms["ee"];
 
@@ -247,14 +245,14 @@ namespace NcalUnitTest
         [Test]
         public void ParamterTypeTest()
         {
-            InaCalcProClass m_pInaCalc = new InaCalcProClass();
+            InaCalcPro m_pInaCalc = new InaCalcPro();
 
             m_pInaCalc.CheckCustomFunction += delegate (string strFunc, IInaCalcFuncArgTypes argTypes, out EInaValueType valType)
             {
                 int count = argTypes.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    var arg = argTypes[i];
+                    var arg = argTypes[i + 1];
                 }
                 valType = EInaValueType.inaValNumber;
             };

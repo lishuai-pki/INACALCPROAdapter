@@ -21,7 +21,7 @@ namespace INACALCPROLib.MathEquations
             {
                 try
                 {
-                    paras[i] = Convert.ToDouble(argVals[i]);
+                    paras[i] = Convert.ToDouble(argVals[i + 1]);
                 }
                 catch (Exception ex)
                 {

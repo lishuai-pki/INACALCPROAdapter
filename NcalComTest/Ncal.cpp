@@ -1,14 +1,15 @@
-#include <iostream>
+﻿#include <iostream>
 #include <objbase.h>
 #include <atlstr.h>
 
 #include "stdafx.h"
 
-#import "..\INACALCPROLib\bin\Debug\INACALCPROLib.tlb"
+//#import "..\INACALCPROLib\bin\Debug\INACALCPROLib.tlb"
+
 
 using namespace ATL;
 using namespace std;
-using namespace INACALCPROLib;
+//using namespace INACALCPROLib;
 
 extern const TCHAR g_cstrAnd[] = _T("And");
 extern const TCHAR g_cstrOr[] = _T("Or");
@@ -27,9 +28,8 @@ extern const TCHAR g_cstrNotBetween[] = _T(" Not Between ");
 
 ATL::CComModule _Module;
 
-class EventReceiver :
-
-	public IDispEventImpl<0, EventReceiver, &(__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), &(__uuidof(INACALCPROLib::__INACALCPROLib)), 1, 0>
+class CMSEquation :
+	public IDispEventImpl< 1, CMSEquation, &__uuidof(_IInaCalcProEvents), &LIBID_INACALCPROLib, 2, 1>
 {
 public:
 	STDMETHOD(CheckAtom)(BSTR strAtom, EInaValueType* valType);
@@ -39,13 +39,13 @@ public:
 	STDMETHOD(EvalCustomFunction)(BSTR strFunc, IDispatch* argVals, VARIANT* vntValue);
 	//STDMETHOD(AtomChanged)(IInaCalcAtom pAtom);
 
-	BEGIN_SINK_MAP(EventReceiver)
-		SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 1, CheckAtom)
-		SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 2, GetAtomValue)
-		SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 3, ValueChanged)
-		SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 4, CheckCustomFunction)
-		SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 5, EvalCustomFunction)
-		//SINK_ENTRY_EX(0, (__uuidof(INACALCPROLib::_IInaCalcProEvents_Event)), 6, AtomChanged)
+	BEGIN_SINK_MAP(CMSEquation)
+		SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 1, CheckAtom)
+		SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 2, GetAtomValue)
+		SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 3, ValueChanged)
+		SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 4, CheckCustomFunction)
+		SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 5, EvalCustomFunction)
+		//SINK_ENTRY_EX(1, (__uuidof(_IInaCalcProEvents)), 6, AtomChanged)
 	END_SINK_MAP()
 };
 
@@ -53,17 +53,17 @@ public:
 int main()
 {
 	char name[50];
-	cout << "put enter to start";
+	cout << "put enter to start" << endl;
 	cin >> name;
 	cout << name << endl;
 
 	CoInitialize(NULL);
 	_Module.Init(NULL, (HINSTANCE)GetModuleHandle(NULL));
 
-	INACALCPROLib::IInaCalcProPtr m_pInaCalc;
+	IInaCalcProPtr m_pInaCalc;
 
-	//m_pInaCalc.CreateInstance(__uuidof(InaCalcPro), NULL, CLSCTX_INPROC_SERVER);
-	m_pInaCalc.CreateInstance(__uuidof(INACALCPROLib::InaCalcProClass));
+	m_pInaCalc.CreateInstance(__uuidof(InaCalcPro), NULL, CLSCTX_INPROC_SERVER);
+	//m_pInaCalc.CreateInstance(__uuidof(InaCalcPro));
 	m_pInaCalc->put_AutoCalc(0);
 	m_pInaCalc->put_RestrictVariables(TRUE);
 
@@ -78,20 +78,26 @@ int main()
 	_bstr_t  sbName(bstrName, false);
 	_bstr_t  sbPrototype(bstrPrototype, false);
 	_bstr_t  sbDesc(bstrDesc, false);
-	pInaCalcFuncs->raw_Add(sbName, EInaFuncCategory::EInaFuncCategory_inaFuncCustom, sbPrototype, sbDesc, &spInaCalcFn);
+	pInaCalcFuncs->raw_Add(sbName, inaFuncCustom, sbPrototype, sbDesc, &spInaCalcFn);
 
 
-	EventReceiver* pReveiver = new EventReceiver;
+	CMSEquation* pReveiver = new CMSEquation;
 
 	HRESULT hresult = pReveiver->DispEventAdvise(m_pInaCalc);
 
 	IInaCalcAtomsPtr   spAtoms;
 	m_pInaCalc->get_Atoms(&spAtoms);
 
+	IInaCalcAtomPtr spAtomAll;
+	CComVariant allEuqation(_T("all"));
+	spAtoms->get_Item(allEuqation, &spAtomAll);
+
+	CComVariant allVal(_T("12"));
+	spAtomAll->putref_Value(allVal);
+
 	CComVariant svEquation(_T("{0FCCC1AA-41F0-4ED3-BEA0-A6D61410B645}"));
 	IInaCalcAtomPtr   spAtomEq;
 	spAtoms->get_Item(svEquation, &spAtomEq);
-
 
 	//BSTR m_equationFormula = SysAllocString(_T("1+1"));
 	//CString  cstrEquation = m_equationFormula;
@@ -107,11 +113,40 @@ int main()
 
 
 
-	BSTR m_equationFormula = SysAllocString(_T("getarea(3,5)"));
+	BSTR m_equationFormula = SysAllocString(_T("getarea(all,5)"));
+	//BSTR m_equationFormula = SysAllocString(_T("1+2*3"));
 	CString cstrEquation = m_equationFormula;
 	cstrEquation.MakeLower();
 	_bstr_t sbEquation(cstrEquation);
 	spAtomEq->put_Formula(sbEquation);
+
+	_bstr_t  sbSyntax;
+	if (m_pInaCalc->LastError != inaErrNone)
+	{
+		sbSyntax = m_pInaCalc->LastErrorDescr;
+		CString  cstrSyntax = (LPCTSTR)sbSyntax;
+		CString  cstrFirst = _T("Syntax error in ");
+		if (cstrSyntax.Left(cstrFirst.GetLength()) == cstrFirst)
+			sbSyntax = (LPCTSTR)cstrSyntax.Right(cstrSyntax.GetLength() - cstrFirst.GetLength());
+		else
+		{
+			int nPos = cstrSyntax.Find(cstrEquation);
+			CString  cstrLast = _T(" in ");
+			if (nPos != -1 && cstrSyntax.Right(cstrLast.GetLength()) == cstrLast)
+			{
+				// remove the ' in ' text
+				sbSyntax = cstrSyntax.Left(nPos);
+				sbSyntax += _T("\n");
+				sbSyntax += (LPCTSTR)cstrEquation;
+			}
+			else
+			{
+				sbSyntax = cstrSyntax;
+				sbSyntax += _T("\n");
+			}
+		}
+	}
+
 	m_pInaCalc->Recalc();
 
 	_variant_t  svRes;
@@ -126,22 +161,22 @@ int main()
 
 }
 
-STDMETHODIMP_(HRESULT __stdcall) EventReceiver::CheckAtom(BSTR strAtom, EInaValueType* valType)
+STDMETHODIMP_(HRESULT __stdcall) CMSEquation::CheckAtom(BSTR strAtom, EInaValueType* valType)
 {
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP_(HRESULT __stdcall) EventReceiver::GetAtomValue(BSTR strAtom, VARIANT* vntValue)
+STDMETHODIMP_(HRESULT __stdcall) CMSEquation::GetAtomValue(BSTR strAtom, VARIANT* vntValue)
 {
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP_(HRESULT __stdcall) EventReceiver::ValueChanged(BSTR strAtom)
+STDMETHODIMP_(HRESULT __stdcall) CMSEquation::ValueChanged(BSTR strAtom)
 {
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP_(HRESULT __stdcall) EventReceiver::CheckCustomFunction(BSTR strFunc, IDispatch* argTypes, EInaValueType* valType)
+STDMETHODIMP_(HRESULT __stdcall) CMSEquation::CheckCustomFunction(BSTR strFunc, IDispatch* argTypes, EInaValueType* valType)
 {
 	_bstr_t sbFunc(strFunc);
 
@@ -162,20 +197,20 @@ STDMETHODIMP_(HRESULT __stdcall) EventReceiver::CheckCustomFunction(BSTR strFunc
 
 			switch (type)
 			{
-			case EInaValueType::EInaValueType_inaValEmpty:
-			case EInaValueType::EInaValueType_inaValError:
+			case inaValEmpty:
+			case inaValError:
 				sbFunc += g_typeEMPTY;
 				break;
-			case EInaValueType::EInaValueType_inaValText:
+			case inaValText:
 				sbFunc += g_typeBSTR;
 				break;
-			case EInaValueType::EInaValueType_inaValNumber:
+			case inaValNumber:
 				sbFunc += g_typeR8;
 				break;
-			case EInaValueType::EInaValueType_inaValDate:
+			case inaValDate:
 				sbFunc += g_typeDATE;
 				break;
-			case EInaValueType::EInaValueType_inaValBool:
+			case inaValBool:
 				sbFunc += g_typeBOOL;
 				break;
 			}
@@ -188,7 +223,7 @@ STDMETHODIMP_(HRESULT __stdcall) EventReceiver::CheckCustomFunction(BSTR strFunc
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP_(HRESULT __stdcall) EventReceiver::EvalCustomFunction(BSTR strFunc, IDispatch* argVals, VARIANT* vntValue)
+STDMETHODIMP_(HRESULT __stdcall) CMSEquation::EvalCustomFunction(BSTR strFunc, IDispatch* argVals, VARIANT* vntValue)
 {
 	if (vntValue == NULL)
 		return E_POINTER;
@@ -234,7 +269,7 @@ STDMETHODIMP_(HRESULT __stdcall) EventReceiver::EvalCustomFunction(BSTR strFunc,
 
 		cout << "evalCustomFunc is " << sbFunc << endl;
 
-		double area = 5 * 6;
+		double area = 5.0 * 6;
 		vntValue->vt = VT_R8;
 		vntValue->dblVal = area;
 		return S_OK;
